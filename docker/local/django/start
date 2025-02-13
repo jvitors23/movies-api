@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+wait-for-it --timeout=0 postgres:5432 -- echo "Wait Finished"
+
+python manage.py migrate
+exec python manage.py runserver 0.0.0.0:8000

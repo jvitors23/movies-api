@@ -1,0 +1,81 @@
+[tool.poetry]
+name = "movies-api"
+version = "0.1.0"
+description = ""
+authors = ["José Vitor Santos Silva <jvss23031999@gmail.com>"]
+readme = "README.md"
+packages = [{include = "movies_api"}]
+
+[tool.poetry.dependencies]
+python = "^3.12.1"
+django = "^5.1.6"
+django-environ = "^0.12.0"
+django-extensions = "^3.2.3"
+djangorestframework = "^3.15.2"
+djangorestframework-simplejwt = "^5.4.0"
+drf-spectacular = "^0.28.0"
+psycopg2 = "^2.9.10"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+mypy = "^1.15.0"
+ruff = "^0.9.6"
+django-debug-toolbar = "^5.0.1"
+pre-commit = "^4.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+# RUFF
+[tool.ruff]
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".idea",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+    "migrations",
+    "__pycache__",
+]
+line-length = 120
+indent-width = 4
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = []
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+quote-style = "double"
+skip-magic-trailing-comma = false
+line-ending = "auto"

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+echo "Running entrypoint"
+python manage.py collectstatic --noinput
+python manage.py migrate
+echo "Starting server"
+ls
+gunicorn movies_api.wsgi:application --preload --config gunicorn-cfg.py
