@@ -32,7 +32,7 @@ A coverage report will be displayed (only few tests for the authentication endpo
 
 Swagger api docs are available on [http://localhost:8001/api/schema/swagger-ui/](http://localhost:8001/api/schema/swagger-ui/) application will be available on [localhost:8000](http://localhost:8000/)
 
-[![API docs](/assets/api.png)
+![API docs](/assets/api.png)
 
 ## Application details
 
@@ -59,7 +59,7 @@ The django application has 4 django apps:
 
 In order to interact and get data from the external data provider, a Python client was generated using
 [openapi-python-client](https://github.com/openapi-generators/openapi-python-client) library. This lib generates a
-modern Python clients from OpenAPI specifications.
+modern Python client from OpenAPI specification.
 
 ## Technologies
 
@@ -76,9 +76,9 @@ modern Python clients from OpenAPI specifications.
 ## Deployment strategy
 
 The recommended deployment strategy for this application is based on containers, since the application is already dockerized.
-A public cloud, like AWS or GCP, could be used and a container based deployment service would be .
+A container based deployment of public cloud, like AWS or GCP, could be used.
 
-I would also use components like Load Balancers and managed database services. The following infrastructure
+I would also use components like Load Balancers and managed database services (to simplify backups and version upgrades). The following infrastructure
 diagram exemplifies a possible deployment using AWS cloud:
 
 ![Infra](/assets/infra.png)
@@ -90,4 +90,4 @@ Improvements I would've done if I had more time:
 - Use of cache to avoid unnecessary requests to the external data provider - How to invalidate the cache would be a tricky part.
 - Return the movie rating counter alongside with movies data (count of all upvotes and downvotes for a given movie)
 - Implement more tests for all the endpoints
--
+- Implement CI pipelines to build docker image, test and lint code
