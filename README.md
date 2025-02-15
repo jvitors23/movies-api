@@ -1,6 +1,6 @@
 # Movies API
 
-Django application for managing users stored on ElasticSearch.
+Django application for managing movies stored on an external data provider service.
 
 ## Running the project (Docker)
 
@@ -12,8 +12,7 @@ Most of the project configuration comes from environment variables, see ``local.
 
 Tested with:
 
-  - Docker version 24.0.6, build ed223bc
-  - docker-compose version 1.29.2, build 5becea4c
+  - Docker version 27.5.1, build ed223bc
 
 The application will be available on [http://localhost:8000/](http://localhost:8000/)
 
@@ -22,16 +21,18 @@ The application will be available on [http://localhost:8000/](http://localhost:8
 To run tests, use:
 
 ```
-docker compose run mysite bash -c "poetry run pytest mysite/apps --cov ."
+ docker compose exec -it app bash -c "pytest movies_api/apps --cov ."
 ```
 
-A coverage report will be displayed.
+A coverage report will be displayed (only few tests for the authentication endpoints were done):
+
+![test report](/assets/test-report.jpeg)
 
 ## API docs
 
-Swagger api docs are available on [http://localhost:8000/api/docs/](http://localhost:8000/api/docs/) application will be available on [localhost:8000](http://localhost:8000/)
+Swagger api docs are available on [http://localhost:8001/api/schema/swagger-ui/](http://localhost:8001/api/schema/swagger-ui/) application will be available on [localhost:8000](http://localhost:8000/)
 
-[![API docs](/assets/api-docs-screen.png)
+[![API docs](/assets/api.png)
 
 ## Application details
 
@@ -40,17 +41,25 @@ The django application has 4 django apps:
 - authentication: Auth endpoints for JWT authentication
   * POST ```/api/v1/auth/token/```: Takes a set of user credentials and returns an access and refresh JSON web token;
   * POST ```/api/v1/auth/refresh/```: Takes a refresh type JSON web token and returns an access type JSON web token;
-  * POST ```/api/v1/auth/logout/```: Logs out the logged-in user;
-- core: Responsible for core functionalities used by other apps
-- users: Users related stuff, such as custom user model, api endpoints for registering new user and managing profile
+  * POST ```/api/v1/auth/refresh/```: Takes a token and indicates if it is valid. This view provides no information about a token's fitness for a particular use;
+- core: Responsible for core functionalities used by other apps. e.g BaseModel
+- users: Users related stuff, such as custom user model and api endpoints for registering new user
   * POST ```/api/v1/users/register/```: Registers a new users;
-  * PUT/PATCH/GET: ```/api/v1/users/me/```: Manage logged user data;
-- elastic: API endpoints for ElasticSearch interaction (documents creation, update and searching)
-  * POST ```/api/v1/elastic/documents/```: Stores a new document on ES;
-  * GET ```/api/v1/elastic/documents/```: Queries documents from a given timestamp (1 hour drift);
-  * GET ```/api/v1/elastic/documents/{id}/```: Queries documents by id;
-  * PUT ```/api/v1/elastic/documents/{id}/```: Updates a document;
-  * GET ```/api/v1/elastic/documents/{id}/```: Partial update of a document;
+- movies: API endpoints for interacting with external data provider for searching and voting on movies.
+  * GET ```/api/v1/movies/```: Searches for movies matching a given query;
+  * POST ```/api/v1/movies/ratings/```: Creates a new movie rating (either an Upvote or a Downvote);
+  * GET ```/api/v1/movies/ratings/```: List rating of the logged-in user;
+  * GET ```/api/v1/movies/ratings/<id>```: Retrieves a rating by id;
+  * PUT ```/api/v1/movies/ratings/<id>```: Updates a rating by id (changes the rating type UPVOTE/DOWNVOTE);
+  * PATCH ```/api/v1/movies/ratings/<id>```: Updates a rating by id (changes the rating type UPVOTE/DOWNVOTE);
+  * DELETE ```/api/v1/movies/ratings/<id>```: Deletes a rating by id;
+
+
+## External data provider - [November 7](https://november7-730026606190.europe-west1.run.app/docs#/)
+
+In order to interact and get data from the external data provider, a Python client was generated using
+[openapi-python-client](https://github.com/openapi-generators/openapi-python-client) library. This lib generates a
+modern Python clients from OpenAPI specifications.
 
 ## Technologies
 
@@ -61,5 +70,24 @@ The django application has 4 django apps:
 - [Django rest framework SimpleJWT](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/)
 - [Pytest](https://docs.pytest.org/en/8.2.x/)
 - [Black](https://pypi.org/project/black/)
-- [ElasticSearch Python DSL](https://elasticsearch-dsl.readthedocs.io/en/latest/)
 - [Poetry](https://python-poetry.org/)
+- [openapi-python-client](https://github.com/openapi-generators/openapi-python-client)
+
+## Deployment strategy
+
+The recommended deployment strategy for this application is based on containers, since the application is already dockerized.
+A public cloud, like AWS or GCP, could be used and a container based deployment service would be .
+
+I would also use components like Load Balancers and managed database services. The following infrastructure
+diagram exemplifies a possible deployment using AWS cloud:
+
+![Infra](/assets/infra.png)
+
+## Future improvements
+
+Improvements I would've done if I had more time:
+
+- Use of cache to avoid unnecessary requests to the external data provider - How to invalidate the cache would be a tricky part.
+- Return the movie rating counter alongside with movies data (count of all upvotes and downvotes for a given movie)
+- Implement more tests for all the endpoints
+-

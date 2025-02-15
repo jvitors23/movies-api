@@ -29,6 +29,7 @@ env = environ.Env(
     POSTGRES_USER=(str, "user"),
     POSTGRES_HOST=(str, "postgres"),
     POSTGRES_DB=(str, "movies_api"),
+    MOVIES_DATA_PROVIDER_BASE_URL=(str, "https://november7-730026606190.europe-west1.run.app/"),
 )
 
 # Quick-start development settings - unsuitable for production
@@ -46,20 +47,26 @@ ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS")
 # Application definition
 
 DJANGO_APPS = [
+    "django.contrib.contenttypes",
     "django.contrib.admin",
     "django.contrib.auth",
-    "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
 ]
+
 THIRD_PARTY_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "drf_spectacular",
 ]
 
-LOCAL_APPS = ["movies_api.apps.users"]
+LOCAL_APPS = [
+    "movies_api.apps.authentication",
+    "movies_api.apps.users",
+    "movies_api.apps.core",
+    "movies_api.apps.movies",
+]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -178,6 +185,6 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "Movies API",
     "DESCRIPTION": "Movies API",
     "VERSION": "1.0.0",
-    "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
-    "SERVE_AUTHENTICATION": ["rest_framework.authentication.BasicAuthentication"],
 }
+
+MOVIES_DATA_PROVIDER_BASE_URL = env("MOVIES_DATA_PROVIDER_BASE_URL")

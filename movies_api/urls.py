@@ -22,7 +22,9 @@ from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("auth/", include("movies_api.apps.authentication.urls")),
+    path("api/v1/auth/", include("movies_api.apps.authentication.urls")),
+    path("api/v1/movies/", include("movies_api.apps.movies.urls")),
+    path("api/v1/users/", include("movies_api.apps.users.urls")),
     path("", include("movies_api.apps.core.urls")),
 ]
 

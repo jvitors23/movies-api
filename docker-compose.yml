@@ -7,7 +7,6 @@ services:
     image: movies_api_local_django
     container_name: movies_api_local_django
     depends_on:
-      - redis
       - postgres
     volumes:
       - .:/app:z
@@ -24,13 +23,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
-
-  redis:
-    image: redis
-    container_name: movies_api_api_local_redis
-    ports:
-      - '6379:6379'
+      - "5432:5432"
 
 volumes:
   postgres_data:
