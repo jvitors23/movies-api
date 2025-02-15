@@ -79,6 +79,7 @@ Improvements I would've done if I had more time:
 - Return the movie rating counter alongside with movies data (count of all upvotes and downvotes for a given movie)
 - Implement more tests for all the endpoints
 - Implement CI pipelines to build docker image, test and lint code
+- Deploy the application
 
 ## Technologies
 
