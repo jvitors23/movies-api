@@ -61,18 +61,6 @@ In order to interact and get data from the external data provider, a Python clie
 [openapi-python-client](https://github.com/openapi-generators/openapi-python-client) library. This lib generates a
 modern Python client from OpenAPI specification.
 
-## Technologies
-
-- [Python](https://www.python.org/)
-- [Docker](https://www.docker.com/)
-- [Django](https://www.djangoproject.com/)
-- [Django rest framework](https://www.django-rest-framework.org/)
-- [Django rest framework SimpleJWT](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/)
-- [Pytest](https://docs.pytest.org/en/8.2.x/)
-- [Black](https://pypi.org/project/black/)
-- [Poetry](https://python-poetry.org/)
-- [openapi-python-client](https://github.com/openapi-generators/openapi-python-client)
-
 ## Deployment strategy
 
 The recommended deployment strategy for this application is based on containers, since the application is already dockerized.
@@ -91,3 +79,15 @@ Improvements I would've done if I had more time:
 - Return the movie rating counter alongside with movies data (count of all upvotes and downvotes for a given movie)
 - Implement more tests for all the endpoints
 - Implement CI pipelines to build docker image, test and lint code
+
+## Technologies
+
+- [Python](https://www.python.org/)
+- [Docker](https://www.docker.com/)
+- [Django](https://www.djangoproject.com/)
+- [Django rest framework](https://www.django-rest-framework.org/)
+- [Django rest framework SimpleJWT](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/)
+- [Pytest](https://docs.pytest.org/en/8.2.x/)
+- [Black](https://pypi.org/project/black/)
+- [Poetry](https://python-poetry.org/)
+- [openapi-python-client](https://github.com/openapi-generators/openapi-python-client)
